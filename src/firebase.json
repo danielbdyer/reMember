@@ -1,0 +1,8 @@
+{
+  apiKey: "AIzaSyCwvIPPuTOo0K5158_fmVysfy3PbzD0tcc",
+  authDomain: "ar-htx-remember.firebaseapp.com",
+  databaseURL: "https://ar-htx-remember.firebaseio.com",
+  projectId: "ar-htx-remember",
+  storageBucket: "ar-htx-remember.appspot.com",
+  messagingSenderId: "759195899225"
+}

@@ -5,6 +5,8 @@ import { ListView, View, TouchableWithoutFeedback, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Spinner, Item } from '../common';
 import styles from './postStyle';
+import Autocomplete from 'react-native-autocomplete-input';
+import AutocompleteExample from './AutocompleteExample';
 
 const propTypes = {
   getPostList: PropTypes.func.isRequired,
@@ -26,12 +28,15 @@ class PostList extends Component {
     const ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
-
+    for (var key in list) {
+      console.log(key)
+      console.log(list[key])
+    }
     this.dataSource = ds.cloneWithRows(list);
   }
 
   renderRow(post) {
-    const { title } = post;
+    const { name } = post;
 
     return (
       <TouchableWithoutFeedback
@@ -39,7 +44,7 @@ class PostList extends Component {
       >
         <View>
           <Item style={styles.listContainerStyle}>
-            <Text style={styles.listTitleStyle}>{title}</Text>
+            <Text style={styles.listTitleStyle}>{name}</Text>
           </Item>
         </View>
       </TouchableWithoutFeedback>
@@ -53,11 +58,14 @@ class PostList extends Component {
           ?
             <Spinner />
           :
-            <ListView
-              enableEmptySections
-              dataSource={this.dataSource}
-              renderRow={this.renderRow}
-            />}
+            <View>
+              <ListView
+                enableEmptySections
+                dataSource={this.dataSource}
+                renderRow={this.renderRow}
+              />
+              <AutocompleteExample />
+            </View>}
       </View>
     );
   }

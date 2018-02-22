@@ -25,11 +25,12 @@ export const signInUser = ({ email, password }) => (dispatch) => {
 
   firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
     .then((user) => {
+      console.log(user.user._user.uid)
       dispatch({ type: SIGN_IN_SUCCESS, payload: user });
 
       dispatch(reset('signin'));
 
-      Actions.post();
+      Actions.postList();
     })
     .catch((error) => { dispatch({ type: SIGN_IN_FAILURE, payload: authFailMessage(error.code) }); });
 };
@@ -39,6 +40,7 @@ export const signUpUser = ({ email, password, firstname, lastname }) => (dispatc
 
   firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password)
     .then((user) => {
+      console.log(user)
       firebase.database().ref('users').child(user.uid)
         .set({ firstname, lastname })
         .then(() => {
@@ -46,7 +48,7 @@ export const signUpUser = ({ email, password, firstname, lastname }) => (dispatc
 
           dispatch(reset('signup'));
 
-          Actions.post();
+          Actions.postList();
         });
     })
     .catch((error) => { dispatch({ type: SIGN_UP_FAILURE, payload: authFailMessage(error.code) }); });

@@ -24,14 +24,14 @@ export const POST_LIST_GET_FAILURE = 'POST_LIST_GET_FAILURE';
  | Actions
  |--------------------------------------------------
  */
-export const createPost = ({ title, description }) => {
+export const createPost = ({ name, email, phone }) => {
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
     dispatch({ type: POST_CREATE_REQUEST });
 
     firebase.database().ref(`/users/${currentUser.uid}/post`)
-      .push({ title, description })
+      .push({ name, email, phone })
       .then(() => {
         dispatch({ type: POST_CREATE_SUCCESS });
 
@@ -43,14 +43,14 @@ export const createPost = ({ title, description }) => {
   };
 };
 
-export const updatePost = ({ title, description, uid }) => {
+export const updatePost = ({ name, email, phone }) => {
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
     dispatch({ type: POST_UPDATE_REQUEST });
 
-    firebase.database().ref(`/users/${currentUser.uid}/post/${uid}`)
-      .set({ title, description })
+    firebase.database().ref(`/houston/allmembers/${uid}`)
+      .set({ name, email, phone })
       .then(() => {
         dispatch({ type: POST_UPDATE_SUCCESS });
 
@@ -68,7 +68,7 @@ export const deletePost = ({ uid }) => {
   return (dispatch) => {
     dispatch({ type: POST_DELETE_REQUEST });
 
-    firebase.database().ref(`/users/${currentUser.uid}/post/${uid}`)
+    firebase.database().ref(`/houston/allmembers/${uid}`)
       .remove()
       .then(() => {
         dispatch({ type: POST_DELETE_SUCCESS });
@@ -87,7 +87,7 @@ export const getPostList = () => {
   return (dispatch) => {
     dispatch({ type: POST_LIST_GET_REQUEST });
 
-    firebase.database().ref(`/users/${currentUser.uid}/post`)
+    firebase.database().ref(`/houston/allmembers`)
       .on('value', (snapshot) => {
         dispatch({ type: POST_LIST_GET_SUCCESS, payload: snapshot.val() });
       });

@@ -20,9 +20,9 @@ class PostCreate extends Component {
   }
 
   handleFormSubmit(props) {
-    const { title, description } = props;
+    const { name, email, phone } = props;
 
-    this.props.createPost({ title, description });
+    this.props.createPost({ name, email, phone });
   }
 
   render() {
@@ -32,22 +32,28 @@ class PostCreate extends Component {
       <Container>
         <Item>
           <Field
-            name="title"
-            placeholder="Title"
+            name="name"
+            placeholder="Full Name"
+            component={Input}
+            containerStyle={{ height: 70 }}
+          />
+        </Item>
+
+        <Item>
+          <Field
+            name="email"
+            placeholder="Email Address"
             component={Input}
           />
         </Item>
 
         <Item>
           <Field
-            name="description"
-            placeholder="Description"
+            name="phone"
+            placeholder="Phone Number"
             component={Input}
-            multiline
-            containerStyle={{ height: 70 }}
           />
         </Item>
-
         {this.props.postError
           ?
             <Text style={styles.error}>
@@ -72,7 +78,7 @@ class PostCreate extends Component {
 
 const validate = (props) => {
   const errors = {};
-  const fields = ['title', 'description'];
+  const fields = ['name', 'email', 'phone'];
 
   fields.forEach((f) => {
     if (!(f in props)) {
@@ -80,16 +86,22 @@ const validate = (props) => {
     }
   });
 
-  if (props.title && props.title.length < 4) {
-    errors.title = 'Minimum of 4 characters';
-  } else if (props.title && props.title.length > 20) {
-    errors.title = 'Maximum of 20 characters';
+  if (props.name && props.name.length < 4) {
+    errors.name = 'Minimum of 4 characters';
+  } else if (props.name && props.name.length > 30) {
+    errors.name = 'Maximum of 30 characters';
   }
 
-  if (props.description && props.description.length < 12) {
-    errors.description = 'Minimum of 12 characters';
-  } else if (props.description && props.description.length > 100) {
-    errors.description = 'Maximum of 100 characters';
+  if (props.email && props.email.length < 10) {
+    errors.email = 'Minimum of 10 characters';
+  } else if (props.email && props.email.length > 25) {
+    errors.email = 'Maximum of 25 characters';
+  }
+
+  if (props.phone && props.phone.length < 10) {
+    errors.phone = 'Minimum of 10 characters';
+  } else if (props.phone && props.phone.length > 15) {
+    errors.phone = 'Maximum of 15 characters';
   }
 
   return errors;

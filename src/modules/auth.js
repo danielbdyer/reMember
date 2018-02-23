@@ -41,7 +41,7 @@ export const signInUser = ({ email, password }) => (dispatch) => {
             .set({ fullname, email })
           });
 
-      Actions.postList();
+      Actions.memberList();
     })
     .catch((error) => { dispatch({ type: SIGN_IN_FAILURE, payload: authFailMessage(error.code) }); });
 };
@@ -59,7 +59,7 @@ export const signUpUser = ({ email, password, name }) => (dispatch) => {
 
           dispatch(reset('signup'));
 
-          Actions.postList();
+          Actions.memberList();
         });
     })
     .catch((error) => { dispatch({ type: SIGN_UP_FAILURE, payload: authFailMessage(error.code) }); });

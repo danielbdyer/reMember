@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import { Container, Item, Button, Input, Spinner, Confirm } from '../common';
-import styles from './postStyle';
+import styles from './memberStyle';
 
 const propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  postError: PropTypes.string.isRequired,
+  memberError: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  updatePost: PropTypes.func.isRequired,
-  deletePost: PropTypes.func.isRequired,
-  post: PropTypes.object.isRequired,
+  updateMember: PropTypes.func.isRequired,
+  deleteMember: PropTypes.func.isRequired,
+  member: PropTypes.object.isRequired,
 };
 
-class PostEdit extends Component {
+class MemberEdit extends Component {
   constructor(props) {
     super(props);
 
@@ -26,7 +26,7 @@ class PostEdit extends Component {
   }
 
   onAccept() {
-    this.props.deletePost({ uid: this.props.post.uid });
+    this.props.deleteMember({ uid: this.props.member.uid });
   }
 
   onDecline() {
@@ -36,7 +36,7 @@ class PostEdit extends Component {
   handleFormSubmit(props) {
     const { name, email, uid } = props;
 
-    this.props.updatePost({ name, email, uid });
+    this.props.updateMember({ name, email, uid });
   }
 
   render() {
@@ -63,10 +63,10 @@ class PostEdit extends Component {
           />
         </Item>
 
-        {this.props.postError
+        {this.props.memberError
           ?
             <Text style={styles.error}>
-              {this.props.postError}
+              {this.props.memberError}
             </Text>
           :
             <View />}
@@ -127,7 +127,7 @@ const validate = (props) => {
   return errors;
 };
 
-PostEdit.propTypes = propTypes;
-PostEdit = reduxForm({ form: 'postedit', validate })(PostEdit);
+MemberEdit.propTypes = propTypes;
+MemberEdit = reduxForm({ form: 'memberedit', validate })(MemberEdit);
 
-export default PostEdit;
+export default MemberEdit;

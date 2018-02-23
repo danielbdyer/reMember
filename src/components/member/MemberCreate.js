@@ -3,16 +3,16 @@ import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
 import { Container, Item, Button, Input, Spinner } from '../common';
-import styles from './postStyle';
+import styles from './memberStyle';
 
 const propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  postError: PropTypes.string.isRequired,
+  memberError: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  createPost: PropTypes.func.isRequired
+  createMember: PropTypes.func.isRequired
 };
 
-class PostCreate extends Component {
+class MemberCreate extends Component {
   constructor(props) {
     super(props);
 
@@ -22,7 +22,7 @@ class PostCreate extends Component {
   handleFormSubmit(props) {
     const { name, email } = props;
 
-    this.props.createPost({ name, email });
+    this.props.createMember({ name, email });
   }
 
   render() {
@@ -49,10 +49,10 @@ class PostCreate extends Component {
           />
         </Item>
 
-        {this.props.postError
+        {this.props.memberError
           ?
             <Text style={styles.error}>
-              {this.props.postError}
+              {this.props.memberError}
             </Text>
           :
             <View />}
@@ -96,7 +96,7 @@ const validate = (props) => {
   return errors;
 };
 
-PostCreate.propTypes = propTypes;
-PostCreate = reduxForm({ form: 'postcreate', validate })(PostCreate);
+MemberCreate.propTypes = propTypes;
+MemberCreate = reduxForm({ form: 'membercreate', validate })(MemberCreate);
 
-export default PostCreate;
+export default MemberCreate;

@@ -15,13 +15,13 @@ export default function (ComposedComponent) {
   class Authentication extends Component {
     componentWillMount() {
       if (this.props.user) {
-        Actions.postList();
+        Actions.memberList();
       }
     }
 
     componentWillUpdate(nextProps) {
       if (nextProps.user) {
-        Actions.postList();
+        Actions.memberList();
       }
     }
 

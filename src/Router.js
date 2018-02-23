@@ -3,9 +3,9 @@ import firebase from 'react-native-firebase';
 import { Scene, Router, Stack, Actions, ActionConst } from 'react-native-router-flux';
 import Signin from './containers/auth/Signin';
 import Signup from './containers/auth/Signup';
-import PostCreate from './containers/post/PostCreate';
-import PostEdit from './containers/post/PostEdit';
-import PostList from './containers/post/PostList';
+import MemberCreate from './containers/member/MemberCreate';
+import MemberEdit from './containers/member/MemberEdit';
+import MemberList from './containers/member/MemberList';
 import requireAuth from './containers/auth/requireAuth';
 import requireNotAuth from './containers/auth/requireNotAuth';
 
@@ -14,9 +14,9 @@ const RouterComponent = () => (
     <Scene key="root">
         <Scene key="signin" component={requireNotAuth(Signin)} title="Please Sign in" type={ActionConst.RESET}/>
         <Scene key="signup" component={requireNotAuth(Signup)} title="Please Sign up" type={ActionConst.RESET}/>
-        <Scene key="postList" component={requireAuth(PostList)} title="Attendees" leftTitle="Sign out" onLeft={() => { firebase.auth().signOut(); Actions.signin(); }} onRight={() => Actions.postCreate()} rightTitle="Create New" type={ActionConst.RESET} />
-        <Scene key="postCreate" component={requireAuth(PostCreate)} title="First-Time Attendee" />
-        <Scene key="postEdit" component={requireAuth(PostEdit)} title="Personal Details" />
+        <Scene key="memberList" component={requireAuth(MemberList)} title="Attendees" leftTitle="Sign out" onLeft={() => { firebase.auth().signOut(); Actions.signin(); }} onRight={() => Actions.memberCreate()} rightTitle="Create New" type={ActionConst.RESET} />
+        <Scene key="memberCreate" component={requireAuth(MemberCreate)} title="First-Time Attendee" />
+        <Scene key="memberEdit" component={requireAuth(MemberEdit)} title="Personal Details" />
     </Scene>
   </Router>
 );

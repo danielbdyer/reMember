@@ -1,89 +1,71 @@
-# React Native Firebase Starter<a href="https://rnfirebase.io"><img align="left" src="http://i.imgur.com/01XQL0x.png"></a>
+# reMember
 
-[![Backers on Open Collective](https://opencollective.com/react-native-firebase/backers/badge.svg)](#backers)
-[![Sponsors on Open Collective](https://opencollective.com/react-native-firebase/sponsors/badge.svg)](#sponsors)
-[![npm version](https://img.shields.io/npm/v/react-native-firebase.svg?style=flat-square)](https://www.npmjs.com/package/react-native-firebase)
-[![NPM downloads](https://img.shields.io/npm/dm/react-native-firebase.svg?style=flat-square)](https://www.npmjs.com/package/react-native-firebase)
-[![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg?style=flat-square)](https://discord.gg/C9aK28N)
-[![Twitter Follow](https://img.shields.io/twitter/follow/rnfirebase.svg?style=social&label=Follow)](https://twitter.com/rnfirebase)
+#### See our YouTube demo here!
 
----
+https://www.youtube.com/watch?v=4yHnL0zcra8
 
-A basic react native app with [`react-native-firebase`](https://github.com/invertase/react-native-firebase) pre-integrated  to get you started quickly.
+## Intro
 
----
+Some groups just need a simple way to keep track of new and returning attendees at an event. This was the challenge that Authentic Relating Houston faced (where I am a lead facilitator), and so I developed reMember, a basic check-in app that synchronizes with Firebase to log both weekly and all-time attendee information. It will soon provide other needed features as well.
 
+## What We Used
 
-### Getting Started
-
-If you're only developing for one platform you can ignore the steps below that are tagged with the platform you don't require.
-
-#### 1) Clone & Install Dependencies
-
-- 1.1) `git clone https://github.com/invertase/react-native-firebase-starter.git`
-- 1.2) `cd react-native-firebase-starter` - cd into your newly created project directory.
-- 1.3) Install NPM packages with your package manager of choice - i.e run `yarn` or `npm install`
-- 1.4) **[iOS]** `cd ios` and run `pod install` - if you don't have CocoaPods you can follow [these instructions](https://guides.cocoapods.org/using/getting-started.html#getting-started) to install it.
-- 1.5) **[Android]** No additional steps for android here.
-
-#### 2) Rename Project
-
-**You will need to be running Node verison 7.6 or greater for the rename functionality to work**
-
-- 2.0) **[iOS]** `cd ..` to return to the root directory of the project
-- 2.1) `npm run rename` - you'll be prompted to enter a project name and company name
-- 2.2) Note down the package name value - you'll need this when setting up your Firebase project
-
-#### 3) Add `Google Services` files (plist & JSON)
-
-- 3.1) **[iOS]** Follow the `add firebase to your app` instructions [here](https://firebase.google.com/docs/ios/setup#add_firebase_to_your_app) to generate your `GoogleService-Info.plist` file if you haven't done so already - use the package name generated previously as your `iOS bundle ID`.
-- 3.2) **[iOS]** Place this file in the `ios/` directory of your project.
-- 3.3) **[Android]** Follow the `manually add firebase` to your app instructions [here](https://firebase.google.com/docs/android/setup#manually_add_firebase) to generate your `google-services.json` file if you haven't done so already - use the package name generated previously as your `Android package name`.
-- 3.4) Place this file in the `android/app/` directory of your project.
-  
-#### 4) Start your app
-
-- 4.1) Start the react native packager, run `yarn run start` or `npm start` from the root of your project.
-- 4.2) **[iOS]** Build and run the iOS app, run `npm run ios` or `yarn run ios` from the root of your project. The first build will take some time. This will automatically start up a simulator also for you on a successful build if one wasn't already started.
-- 4.3) **[Android]** If you haven't already got an android device attached/emulator running then you'll need to get one running (make sure the emulator is with Google Play / APIs). When ready run `npm run android` or `yarn run android` from the root of your project.
-
-If all has gone well you'll see an initial screen like the one below.
-  
-## Screenshots
-
-![preview](https://i.imgur.com/4lG4HuS.png)
+| Built with:
+| ------------|
+| ES6 Javascript |
+| React |
+| React Native |
+| React-Native-Firebase (bridges iOS, Android, .js SDKs) |
+| React-Native-Router-Flux |
+| Firebase |
+| Redux |
+| Redux-Thunk |
+| Moment.js |
+| Lodash |
 
 
-## Contributors
+## Using the App
 
-This project exists thanks to all the people who contribute. [[Contribute]](CONTRIBUTING.md).
-<a href="graphs/contributors"><img src="https://opencollective.com/react-native-firebase/contributors.svg?width=890" /></a>
+Group members responsible for check-in can begin by logging into their account if it already exists, or create a new one by following the link at the bottom of the log-in screen. 
 
+Once logged in, the app will show all already-checked in members for the day, if there are any. If no users have yet checked in, the user of the app will need to search for existing members, or they will use the upper-right tab button to proceed to create a brand new member.
 
-## Backers
+By clicking on the search bar, the user effectively searches a global list of community members (accumulated from all previous events.) If an existing member is found within the search, the user will be able to click on their name to add them (and a link to all of their info) within that day's attendance record. If not, they can proceed into the Create New screen to do exactly that.
 
-Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/react-native-firebase#backer)]
+From here, they will be able to add both username and e-mail, with planned functionality of Boolean checkboxes to indicate interest of receiving newsletters and/or a welcome e-mail.
 
-<a href="https://opencollective.com/react-native-firebase#backers" target="_blank"><img src="https://opencollective.com/react-native-firebase/backers.svg?width=890"></a>
+## Our Design Process
 
+At the outset of this project, I worked to gather together the requisite elements that would need to come into play in order to create a functioning app. It would need to have intake of information from new members, a way to search for existing members and add them to that meeting's attendance sheet, and a way for members to edit their information on the fly.
 
-## Sponsors
+Within React-Native-Router-Flux, each component can be substantiated as its own scene within the app. The basic functionality of logging in, creating a new login, viewing all members, creating a member, and editing a member seemed clear enough, and was important for getting distinct about the singular purposes of reducers, actions, and methods.
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/react-native-firebase#sponsor)]
+I found that denormalizing the data would be the best approach when it came to keeping the weekly attendance lists and the all-time attendance lists separate, and so I developed a system of logic that would store the check-in admin alongside the list of atteendees for the evening, as well as registering the check-in admin as one of the all-time attendees, so there would be concurrency between UIDs. 
 
-<a href="https://opencollective.com/react-native-firebase/sponsor/0/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/0/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/1/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/1/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/2/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/2/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/3/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/3/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/4/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/4/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/5/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/5/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/6/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/6/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/7/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/7/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/8/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/8/avatar.svg"></a>
-<a href="https://opencollective.com/react-native-firebase/sponsor/9/website" target="_blank"><img src="https://opencollective.com/react-native-firebase/sponsor/9/avatar.svg"></a>
+## Our Challenges
 
+The challenges that I faced in particular were in designing the app to be the most stable as possible, given the relative immaturity of some of its components. The beta version of React-Native-Router-Flux ended up serving its purpose well, but not without some extra work in ensuring that all of the scenes were appropriately nested against one another.
 
+## Future Goals
 
-### License
+The intention for this app is meant not only for the local Authentic Relating community, but for all of them, should they choose to opt-in to it, as we have a global network of communities. There are some stretch goals that I plan to implement as time goes on, but for now, the ability to create new users and store them per event is much better than how we were doing it before: on pen and paper, which often would go home with a facilitator and then ultimately not be merged together with other lists to form a database of individuals. We are looking to build a community e-mail address list with which we can send out a MailChimp newsletter.
 
-- See [LICENSE](/LICENSE)
+With that said, our goals include:
+
+* Logging in against Firebase credentials (complete)
+* Adding a new member and persisting it (complete)
+* Showing that member and other members, accumulated, per event (complete)
+* Autocompleting against a global list of accumulated members (complete)
+* Storing that autocompleted member as a user for that week (pending)
+* Produce CSV from Firebase Admin SDK, or app itself, to be e-mailed (TBD)
+* Facebook RSVP integration (TBD)
+* Viewing all checked in for previous weeks (pending)
+* Additional information and resources about the evening (potential)
+* Integration with the Stripe payment API for taking in payment (stretch)
+* Higher attendance should result in a higher autocomplete listing (stretch)
+* Auto first-time registration e-mail with user opt-in, but defaulted to true (stretch)
+* User profile icons or avatars (stretch)
+
+## Authors
+
+* **Daniel Dyer** - [danielbdyer](https://github.com/danielbdyer)

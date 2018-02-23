@@ -1,6 +1,7 @@
 import firebase from 'react-native-firebase';
 import { Actions } from 'react-native-router-flux';
 import { reset } from 'redux-form';
+import moment from 'moment';
 
 /**
  |--------------------------------------------------
@@ -21,30 +22,40 @@ export const SET_INITIAL_STATE = 'SET_INITIAL_STATE';
 |--------------------------------------------------
 */
 export const signInUser = ({ email, password }) => (dispatch) => {
+  const eventDate = moment().format('dddd MMM Do YYYY');
+
   dispatch({ type: SIGN_IN_REQUEST });
 
   firebase.auth().signInAndRetrieveDataWithEmailAndPassword(email, password)
-    .then((user) => {
-      console.log(user.user._user.uid)
-      dispatch({ type: SIGN_IN_SUCCESS, payload: user });
+    .then((userCredential) => {
+      const adminUID = userCredential.user.uid;
+
+      dispatch({ type: SIGN_IN_SUCCESS, payload: userCredential });
 
       dispatch(reset('signin'));
+
+      firebase.database().ref(`houston/community/${adminUID}`).once('value')
+        .then((snapshot) => {
+          const fullname = snapshot.val().name;
+          firebase.database().ref(`/houston/events/${eventDate}/admin/`).child(`${adminUID}`)
+            .set({ fullname, email })
+          });
 
       Actions.postList();
     })
     .catch((error) => { dispatch({ type: SIGN_IN_FAILURE, payload: authFailMessage(error.code) }); });
 };
 
-export const signUpUser = ({ email, password, firstname, lastname }) => (dispatch) => {
+export const signUpUser = ({ email, password, name }) => (dispatch) => {
+
   dispatch({ type: SIGN_UP_REQUEST });
 
   firebase.auth().createUserAndRetrieveDataWithEmailAndPassword(email, password)
-    .then((user) => {
-      console.log(user)
-      firebase.database().ref('users').child(user.uid)
-        .set({ firstname, lastname })
+    .then((userCredential) => {
+      firebase.database().ref(`houston/community`).child(userCredential.user.uid)
+        .set({ name, email })
         .then(() => {
-          dispatch({ type: SIGN_UP_SUCCESS, payload: user });
+          dispatch({ type: SIGN_UP_SUCCESS, payload: userCredential });
 
           dispatch(reset('signup'));
 

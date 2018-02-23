@@ -26,9 +26,9 @@ class Signup extends Component {
   }
 
   handleFormSubmit(props) {
-    const { email, password, firstname, lastname } = props;
+    const { email, password, name } = props;
 
-    this.props.signUpUser({ email, password, firstname, lastname });
+    this.props.signUpUser({ email, password, name });
   }
 
   render() {
@@ -39,17 +39,10 @@ class Signup extends Component {
 
         <Item>
           <Field
-            name="firstname"
+            name="name"
             component={Input}
-            placeholder="First name"
-          />
-        </Item>
-
-        <Item>
-          <Field
-            name="lastname"
-            component={Input}
-            placeholder="Last name"
+            autoCapitalize={'words'}
+            placeholder="Full Name"
           />
         </Item>
 
@@ -67,6 +60,7 @@ class Signup extends Component {
             name="password"
             component={Input}
             secureTextEntry
+            autoCapitalize={'none'}
             placeholder="Password"
           />
         </Item>
@@ -115,7 +109,7 @@ class Signup extends Component {
 
 const validate = (props) => {
   const errors = {};
-  const fields = ['firstname', 'lastname', 'email', 'password'];
+  const fields = ['name', 'email', 'password'];
 
   fields.forEach((f) => {
     if (!(f in props)) {
@@ -123,16 +117,10 @@ const validate = (props) => {
     }
   });
 
-  if (props.firstname && props.firstname.length < 3) {
-    errors.firstname = 'Minimum of 3 characters';
-  } else if (props.firstname && props.firstname.length > 20) {
-    errors.firstname = 'Maximum of 20 characters';
-  }
-
-  if (props.lastname && props.lastname.length < 3) {
-    errors.lastname = 'Minimum of 3 characters';
-  } else if (props.lastname && props.lastname.length > 20) {
-    errors.lastname = 'Maximum of 20 characters';
+  if (props.name && props.name.length < 3) {
+    errors.name = 'Minimum of 3 characters';
+  } else if (props.name && props.name.length > 20) {
+    errors.name = 'Maximum of 20 characters';
   }
 
   if (props.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(props.email)) {

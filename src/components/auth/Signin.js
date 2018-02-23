@@ -40,6 +40,7 @@ class Signin extends Component {
         <Item>
           <Field
             name="email"
+            autoCapitalize={'none'}
             component={Input}
             placeholder="Email"
           />
@@ -49,6 +50,7 @@ class Signin extends Component {
           <Field
             name="password"
             component={Input}
+            autoCapitalize={'none'}
             secureTextEntry
             placeholder="Password"
           />

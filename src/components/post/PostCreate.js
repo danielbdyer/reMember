@@ -9,7 +9,7 @@ const propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   postError: PropTypes.string.isRequired,
   loading: PropTypes.bool.isRequired,
-  createPost: PropTypes.func.isRequired,
+  createPost: PropTypes.func.isRequired
 };
 
 class PostCreate extends Component {
@@ -20,9 +20,9 @@ class PostCreate extends Component {
   }
 
   handleFormSubmit(props) {
-    const { name, email, phone } = props;
+    const { name, email } = props;
 
-    this.props.createPost({ name, email, phone });
+    this.props.createPost({ name, email });
   }
 
   render() {
@@ -34,6 +34,7 @@ class PostCreate extends Component {
           <Field
             name="name"
             placeholder="Full Name"
+            autoCapitalize={'words'}
             component={Input}
             containerStyle={{ height: 70 }}
           />
@@ -43,17 +44,11 @@ class PostCreate extends Component {
           <Field
             name="email"
             placeholder="Email Address"
+            autoCapitalize={'none'}
             component={Input}
           />
         </Item>
 
-        <Item>
-          <Field
-            name="phone"
-            placeholder="Phone Number"
-            component={Input}
-          />
-        </Item>
         {this.props.postError
           ?
             <Text style={styles.error}>
@@ -78,7 +73,7 @@ class PostCreate extends Component {
 
 const validate = (props) => {
   const errors = {};
-  const fields = ['name', 'email', 'phone'];
+  const fields = ['name', 'email'];
 
   fields.forEach((f) => {
     if (!(f in props)) {
@@ -96,12 +91,6 @@ const validate = (props) => {
     errors.email = 'Minimum of 10 characters';
   } else if (props.email && props.email.length > 25) {
     errors.email = 'Maximum of 25 characters';
-  }
-
-  if (props.phone && props.phone.length < 10) {
-    errors.phone = 'Minimum of 10 characters';
-  } else if (props.phone && props.phone.length > 15) {
-    errors.phone = 'Maximum of 15 characters';
   }
 
   return errors;

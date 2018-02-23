@@ -34,9 +34,9 @@ class PostEdit extends Component {
   }
 
   handleFormSubmit(props) {
-    const { name, email, phone, uid } = props;
+    const { name, email, uid } = props;
 
-    this.props.updatePost({ name, email, phone, uid });
+    this.props.updatePost({ name, email, uid });
   }
 
   render() {
@@ -48,6 +48,7 @@ class PostEdit extends Component {
           <Field
             name="name"
             placeholder="Full Name"
+            autoCapitalize={'words'}
             component={Input}
             containerStyle={{ height: 70 }}
           />
@@ -57,14 +58,7 @@ class PostEdit extends Component {
           <Field
             name="email"
             placeholder="Email Address"
-            component={Input}
-          />
-        </Item>
-
-        <Item>
-          <Field
-            name="phone"
-            placeholder="Phone Number"
+            autoCapitalize={'none'}
             component={Input}
           />
         </Item>
@@ -110,7 +104,7 @@ class PostEdit extends Component {
 
 const validate = (props) => {
   const errors = {};
-  const fields = ['name', 'email', 'phone'];
+  const fields = ['name', 'email'];
 
   fields.forEach((f) => {
     if (!(f in props)) {
@@ -128,12 +122,6 @@ const validate = (props) => {
     errors.email = 'Minimum of 10 characters';
   } else if (props.email && props.email.length > 25) {
     errors.email = 'Maximum of 25 characters';
-  }
-
-  if (props.phone && props.phone.length < 10) {
-    errors.phone = 'Minimum of 10 characters';
-  } else if (props.phone && props.phone.length > 15) {
-    errors.phone = 'Maximum of 15 characters';
   }
 
   return errors;

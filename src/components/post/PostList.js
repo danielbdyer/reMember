@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { ListView, View, TouchableWithoutFeedback, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Spinner, Item } from '../common';
-import styles from './postStyle';
-import Autocomplete from 'react-native-autocomplete-input';
 import AutocompleteExample from './AutocompleteExample';
+import styles from './postStyle';
+
 
 const propTypes = {
   getPostList: PropTypes.func.isRequired,
@@ -58,14 +58,8 @@ class PostList extends Component {
           ?
             <Spinner />
           :
-            <View>
-              <ListView
-                enableEmptySections
-                dataSource={this.dataSource}
-                renderRow={this.renderRow}
-              />
-              <AutocompleteExample />
-            </View>}
+            <AutocompleteExample />
+          }
       </View>
     );
   }

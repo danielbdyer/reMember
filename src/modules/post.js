@@ -1,5 +1,6 @@
 import { Actions } from 'react-native-router-flux';
 import firebase from 'react-native-firebase';
+import moment from 'moment';
 
 /**
  |--------------------------------------------------
@@ -24,14 +25,24 @@ export const POST_LIST_GET_FAILURE = 'POST_LIST_GET_FAILURE';
  | Actions
  |--------------------------------------------------
  */
-export const createPost = ({ name, email, phone }) => {
+export const createPost = ({ name, email }) => {
   const { currentUser } = firebase.auth();
+  const eventDate = moment().format('dddd MMM Do YYYY');
 
   return (dispatch) => {
     dispatch({ type: POST_CREATE_REQUEST });
 
-    firebase.database().ref(`/users/${currentUser.uid}/post`)
-      .push({ name, email, phone })
+    firebase.database().ref(`/houston/community`)
+    .push({ name, email })
+    .then(() => {
+      dispatch({ type: POST_CREATE_SUCCESS });
+    })
+    .catch(() => {
+      dispatch({ type: POST_CREATE_FAILURE, payload: 'Post creation failed' });
+    });
+
+    firebase.database().ref(`/houston/events/${eventDate}/attendees`)
+      .push({ name, email })
       .then(() => {
         dispatch({ type: POST_CREATE_SUCCESS });
 
@@ -43,14 +54,24 @@ export const createPost = ({ name, email, phone }) => {
   };
 };
 
-export const updatePost = ({ name, email, phone }) => {
+export const updatePost = ({ name, email, uid }) => {
+  const eventDate = moment().format('dddd MMM Do YYYY');
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
     dispatch({ type: POST_UPDATE_REQUEST });
 
-    firebase.database().ref(`/houston/allmembers/${uid}`)
-      .set({ name, email, phone })
+    firebase.database().ref(`/houston/community/${uid}`)
+      .set({ name, email })
+      .then(() => {
+        dispatch({ type: POST_UPDATE_SUCCESS });
+      })
+      .catch(() => {
+        dispatch({ type: POST_UPDATE_FAILURE, payload: 'Post edition failed' });
+      });
+
+    firebase.database().ref(`/houston/events/${eventDate}/attendees/${uid}`)
+      .set({ name, email })
       .then(() => {
         dispatch({ type: POST_UPDATE_SUCCESS });
 
@@ -63,12 +84,13 @@ export const updatePost = ({ name, email, phone }) => {
 };
 
 export const deletePost = ({ uid }) => {
+  const eventDate = moment().format('dddd MMM Do YYYY');
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
     dispatch({ type: POST_DELETE_REQUEST });
 
-    firebase.database().ref(`/houston/allmembers/${uid}`)
+    firebase.database().ref(`/houston/events/${eventDate}/attendees/${uid}`)
       .remove()
       .then(() => {
         dispatch({ type: POST_DELETE_SUCCESS });
@@ -82,13 +104,15 @@ export const deletePost = ({ uid }) => {
 };
 
 export const getPostList = () => {
+  const eventDate = moment().format('dddd MMM Do YYYY');
   const { currentUser } = firebase.auth();
 
   return (dispatch) => {
     dispatch({ type: POST_LIST_GET_REQUEST });
 
-    firebase.database().ref(`/houston/allmembers`)
+    firebase.database().ref(`/houston/events/${eventDate}/attendees`)
       .on('value', (snapshot) => {
+        console.log(snapshot);
         dispatch({ type: POST_LIST_GET_SUCCESS, payload: snapshot.val() });
       });
   };
